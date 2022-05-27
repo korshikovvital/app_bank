@@ -1,0 +1,22 @@
+{% extends 'finapp/base.html' %}
+{% block content %}
+
+
+  <div class="row g-0">
+    <div class="col-md-5">
+      <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-7">
+      <div class="card-body">
+        <h5 class="card-title">{{ product.name }}</h5>
+        <p class="card-text">{{ product.descriptions }}</p>
+        <p class="card-text">{{ product.info }}</p>
+
+      </div>
+
+    </div>
+      <button type="button" class="btn btn-primary">Онлайн-заявка</button>
+  </div>
+
+</div>
+{% endblock %}

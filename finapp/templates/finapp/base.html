@@ -1,0 +1,112 @@
+{% load static %}
+{% load finapp_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Banki</title>
+
+
+  <link rel="stylesheet" type="text/css" href="{% static 'finapp/css/style.css' %}">
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">KORSHIKOV </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Главная</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'addform' %}">Добавить продукт</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'contact' %}">Написать нам</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link ">Займы под 0%</a>
+
+        </li>
+          </ul>
+ <div class="position-absolute  end-0">
+          <ul class="nav justify-content-end mx-5">
+               {% if request.user.is_authenticated %}
+              <li class="nav-item">
+          Привет,{{ user.username }}|<a href="{% url 'logout' %}">Выйти</a>
+        </li>
+              {% else %}
+          <li class="nav-item">
+          <a  href="{% url 'register' %}">Зарегистрироваться</a>|<a href="{% url 'login' %}">Войти</a>
+        </li>
+              {% endif %}
+          </ul>
+     </div>
+
+    </div>
+  </div>
+</nav>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-3 mt-4">
+      <ul class="list-group">
+
+  <li class="list-group-item bg-info ">Категории</li>
+          {% category as category %}
+{% for cat in category %}
+        {% if cat.url == cat_selected  %}
+  <li class="list-group-item active"><a href="{{ cat.get_absolute_url }}" style="color:black">{{ cat.name }}</a></li>
+          {% else %}
+   <li class="list-group-item "><a href="{{ cat.get_absolute_url }}" style="color:black">{{ cat.name }}</a></li>
+        {% endif %}
+
+        {% endfor %}
+</ul>
+    </div>
+    <div class="col-8 m-4 ">
+       {% block content %}
+        {% endblock %}
+
+
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center my-3">
+      {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">Предыдущая</a>
+    </li>
+      {% endif %}
+      {% for p in paginator.page_range %}
+      {% if page_obj.number == p %}
+    <li class="page-item disabled"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+    {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+      <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+    {% endif %}
+      {% endfor %}
+      {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следущая</a>
+    </li>
+      {% endif %}
+  </ul>
+</nav>
+        {% endif %}
+    </div>
+
+
+  </div>
+
+</div>
+
+</body>
+</html>

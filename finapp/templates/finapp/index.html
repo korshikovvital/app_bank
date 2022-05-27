@@ -1,0 +1,22 @@
+{% extends 'finapp/base.html' %}
+{% block content %}
+<div class="row row-cols-4 ">
+
+    {% for i in product %}
+    <div class="card mx-4">
+        <img src="{{ i.image.url }}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{ i.name }}</h5>
+            <p class="card-text">{{ i.descriptions| truncatewords:20 }}</p>
+        </div>
+        <div class="card-footer">
+            <a href="{{ i.link }}" class="btn btn-primary">Онлайн-заявка</a>
+            <br>
+            <a href="{{ i.get_absolute_url }}" class="card-link">Узнать подробнее</a>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
